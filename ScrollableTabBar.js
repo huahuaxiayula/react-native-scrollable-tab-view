@@ -57,6 +57,18 @@ const ScrollableTabBar = createReactClass({
 
   componentDidMount() {
     this.props.scrollValue.addListener(this.updateView);
+    const curTab = this.props.activeTab
+    const waitCompleted = () =>{
+      setTimeout(()=>{
+        if(this.necessarilyMeasurementsCompleted(curTab, true)){
+          this.updateView({value: curTab });
+          return
+        }else{
+          waitCompleted()
+        }
+      },20)
+    }
+    waitCompleted()
   },
 
   updateView(offset) {
